@@ -3,24 +3,22 @@ import Head from 'next/head'
 
 const Home: NextPage = () => {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="min-h-screen p-10">
       <Head>
         <title>Wacode 2022</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <span className="from-blue-600 to-red-400 bg-gradient-to-r text-transparent bg-clip-text">
-            WACODE 2022
-          </span>
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          This is going to be lit.
-        </p>
-      </main>
+      <div
+        className="flex min-h-screen h-full w-full  flex-1 flex-col 
+        items-center justify-center bg-blue-200 text-center rounded-3xl border-4 border-blue-700">
+          <h1 className="text-6xl font-bold">
+            you are working on...
+          </h1>
+            <h1 className=" text-6xl py-16 font-bold">
+              MATH
+            </h1>
+          <p className="mt-3 text-2xl">Time left: 0:36:37</p>
+        </div>
     </div>
   )
 }
