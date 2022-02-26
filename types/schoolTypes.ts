@@ -1,18 +1,32 @@
 export type User = {
   name: string;
   preferences: Preferences;
-  tasks: Task[];
-};
+  activities: Activity[];
+  fixedPlans: Plan[];
+}
 
 export type Preferences = {
 
 }
 
-export type Schedule = {
-  
+enum DayOfWeek {
+  SUNDAY,
+  MONDAY,
+  TUESDAY,
+  WEDNESDAY,
+  THURSDAY,
+  FRIDAY,
+  SATURDAYS
 }
 
-export type Task = {
+export type Plan = {
+  startTime: Date;
+  endTime: Date;
+  activity: Activity;
+  recurring: boolean;
+}
+
+export type Activity = {
   name: string;
   dueDate: Date;
   priority?: "high" | "medium" | "low";
@@ -21,4 +35,4 @@ export type Task = {
   subject?: string;
   pinned?: boolean;
   completed?: boolean;
-};
+}
