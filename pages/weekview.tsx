@@ -65,17 +65,23 @@ const Weekday: React.FC<WeekProps> = ({ day, color, schedule }) => {
 }
 
 const Home: NextPage = () => {
-  const [schedule, setSchedule] = useState(splitByWeekday(getWeek(fakeUser, 1)))
-  useEffect(() => {
+  const [page, setPage] = useState(1)
+  const [schedule, setSchedule] = useState(splitByWeekday(getWeek(fakeUser, page)))
+  const resetWeek = () => {
+    console.log(page)
     if (localStorage.getItem('user')) {
       setSchedule(
         splitByWeekday(
-          getWeek(JSON.parse(localStorage.getItem('user') as string), 1)
+          getWeek(JSON.parse(localStorage.getItem('user') as string), page)
         )
       )
+      console.log(schedule)
     } else {
-      setSchedule(splitByWeekday(getWeek(fakeUser, 1)))
+      setSchedule(splitByWeekday(getWeek(fakeUser, page)))
     }
+  }
+  useEffect(() => {
+    resetWeek()
   }, [])
 
   return (
@@ -84,6 +90,28 @@ const Home: NextPage = () => {
         <title>Week View</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {/* <button
+        onClick={() => {
+          if (page > 0) {
+            setPage(page - 1)
+          }
+          resetWeek()
+        }}
+        className="active:translate-y-1 -left-5 absolute top-1/2 flex h-12 w-12 content-center justify-center rounded-full bg-white bg-opacity-30 text-4xl font-bold backdrop-blur-md transition-transform hover:translate-x-5"
+      >
+        {'<'}
+      </button>
+      <button
+        onClick={() => {
+          if (page > 0) {
+            setPage(page + 1)
+          }
+          resetWeek()
+        }}
+        className="absolute -right-5 top-1/2 flex h-12 w-12 content-center justify-center rounded-full bg-white bg-opacity-30 text-4xl font-bold backdrop-blur-md transition-transform hover:-translate-x-5 active:translate-y-1"
+      >
+        {'>'}
+      </button> */}
       <div className="flex">
         <p className="m-4 text-4xl font-bold">week at a glance</p>
         <div className="grow"></div>

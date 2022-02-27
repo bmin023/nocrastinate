@@ -53,6 +53,18 @@ export const getWeek = (user: User, numWeeksFromNow: number) => {
     while (plansConflict(aPlan, plans)) {
       aPlan.startTime = moment(aPlan.startTime).subtract(1, 'hour').toDate()
       aPlan.endTime = moment(aPlan.endTime).subtract(1, 'hour').toDate()
+      if(moment(aPlan.startTime).isBefore(weekStart)) {
+        break
+      }
+      //Clamp between 8 am and 10 pm
+      if (moment(aPlan.startTime).hours() < 8) {
+        aPlan.startTime = moment(aPlan.startTime).subtract(1, 'day').set('hours', 21).toDate()
+        aPlan.endTime = moment(aPlan.endTime).subtract(1, 'day').set('hours', 22).toDate()
+      }
+      if (moment(aPlan.endTime).hours() > 22) {
+        aPlan.startTime = moment(aPlan.startTime).set('hours', 21).toDate()
+        aPlan.endTime = moment(aPlan.endTime).set('hours', 22).toDate()
+      }
     }
     plans.push(aPlan)
   }
