@@ -31,7 +31,7 @@ export type Plan = {
 export type Activity = {
   name: string;
   dueDate: Date;
-  priority?: "high" | "medium" | "low";
+  priority: "high" | "medium" | "low";
   estTimeRequired?: number;
   class?: string;
   subject?: string;

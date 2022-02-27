@@ -1,25 +1,25 @@
+import moment from 'moment'
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AddTaskModal } from '../Components/AddTaskModal'
-import { Plan } from '../types/schoolTypes'
-import { niceDateString } from '../utils/classUtils'
+import { Activity, Plan } from '../types/schoolTypes'
 import fakeUser from '../utils/fake'
 
 interface DayProps {
-  day: Plan
+  day: Activity
 }
 
 const Day: React.FC<DayProps> = ({ day }) => {
   return (
     <div className="m-4 flex justify-between rounded-lg bg-blue-300 p-4 shadow">
       <div className="w-1/2">
-        <h1 className="text-xl">{day.activity.subject}</h1>
-        <p className="text-2xl font-bold">{day.activity.name}</p>
+        <h1 className="text-xl">{day.subject}</h1>
+        <p className="text-2xl font-bold">{day.name}</p>
       </div>
       <div className="w-1/2">
         <h1 className="text-2xl font-semibold">
-          {niceDateString(day.startTime)}
+          {moment(day.dueDate).format('dddd HH:mm')}
         </h1>
       </div>
     </div>
@@ -28,6 +28,15 @@ const Day: React.FC<DayProps> = ({ day }) => {
 
 const Dashboard: NextPage = () => {
   const [modalOpen, setModalOpen] = useState(false)
+  const [user, setUser] = useState(fakeUser);
+  useEffect(() => {
+    if(localStorage.getItem('user') !== null) {
+      setUser(JSON.parse(localStorage.getItem('user') as string))
+    }
+  }, [])
+  useEffect(() => {
+    localStorage.setItem('user', JSON.stringify(user))
+  }, [user])
   return (
     <div className="flex min-h-screen">
       {/* Create a sidebar */}
@@ -71,7 +80,7 @@ const Dashboard: NextPage = () => {
           </button>
           <div className="py-auto absolute right-5 h-20 w-20 rounded-full bg-red-300 shadow"></div>
         </div>
-        {fakeUser.fixedPlans.map((day, index) => (
+        {user.activities.concat(user.fixedPlans.map((plan)=>(plan.activity))).map((day, index) => (
           <Day key={index} day={day} />
         ))}
       </div>
@@ -81,6 +90,10 @@ const Dashboard: NextPage = () => {
             setModalOpen(false)
           }}
           onSubmit={(task) => {
+            setUser({
+              ...user,
+              activities: [...user.activities, task],
+            })
             setModalOpen(false)
           }}
         />

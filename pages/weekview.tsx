@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { Plan } from '../types/schoolTypes'
-import { splitByWeekday } from '../utils/classUtils'
+import { getWeek, splitByWeekday } from '../utils/classUtils'
 import fakeUser from '../utils/fake'
 import moment from 'moment'
 
@@ -27,7 +27,7 @@ const Weekday: React.FC<WeekProps> = ({ day, color, schedule }) => {
     `grid shadow-lg rounded-3xl w-full h-full p-2 ${bgcol[color]}`
   return (
     <div className="h-5/6 w-1/5">
-      <p className="text-center text-xl font-semibold">{day}</p>
+      <p className="text-center text-xl font-semibold">{day} {schedule[0]?moment(schedule[0].startTime).format('Do') : ''}</p>
       <div className={style} style={{columnCount: 1, gridTemplateRows: "repeat(168,auto)"}}>
         {schedule &&
           schedule.map((plan, index) => {
@@ -54,9 +54,9 @@ const Weekday: React.FC<WeekProps> = ({ day, color, schedule }) => {
 }
 
 const Home: NextPage = () => {
-  const [schedule, setSchedule] = useState(splitByWeekday(fakeUser.fixedPlans))
+  const [schedule, setSchedule] = useState(splitByWeekday(getWeek(fakeUser,1)))
   useEffect(() => {
-    setSchedule(splitByWeekday(fakeUser.fixedPlans))
+    setSchedule(splitByWeekday(getWeek(fakeUser,1)))
   }, [])
 
   return (
