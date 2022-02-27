@@ -31,24 +31,28 @@ const Home: NextPage = () => {
       </Head>
       <div
         className="flex min-h-screen h-full w-full  flex-1 flex-col 
-        items-center justify-center bg-blue-200 text-center rounded-3xl border-4 border-blue-600">
+        items-center justify-center bg-blue-200 active:bg-indigo-400 text-center rounded-3xl shadow-xl">
           {currPlan.activity.name !== 'break' && <h1 className="text-5xl font-bold"> you are working on... </h1>}
       
         { currPlan.activity.name === 'break' ?
             <h1 className=" text-6xl py-16 font-bold ">take a break! you earned it</h1>
           :
-            <h1 className=" text-6xl py-16 font-bold">currPlan.activity.name</h1>
+            <h1 className=" text-6xl py-16 font-bold">{currPlan.activity.name}</h1>
         } 
         
-        { currPlan.activity.name !== 'break' && <p className=" -mt-8 text-2xl">Time left: {counter}</p>}
+        { currPlan.activity.name !== 'break' && <p className=" -mt-8 text-2xl">Time left: {moment.utc(counter*1000).format("HH:mm:ss")}</p>}
       </div>
-      <h1 className="-m-20 mx-20">
-        <Link href="/weekview">
-            <a type="button" className="cursor-pointer font-extrabold rounded-xl bg-orange-100 p-3 text-2xl shadow-l hover:bg-orange-200 active:bg-orange-400">
-                week at a glance
-            </a>
-        </Link>
-      </h1>
+      
+    <Link href="/weekview">
+        <a type="button" className="absolute top-10 left-10 m-4 mx-6 cursor-pointer font-extrabold rounded-xl bg-red-200 p-3 text-2xl shadow-l hover:bg-red-100 active:bg-red-400">
+            week at a glance
+        </a>
+    </Link>
+    <Link href="/dashboard">
+        <a type="button" className="absolute top-10 right-10 m-4 mx-6 cursor-pointer font-extrabold rounded-xl bg-orange-200 p-3 text-2xl shadow-l hover:bg-orange-100 active:bg-orange-400">
+            dashboard
+        </a>
+    </Link>
     </div>
   )
 }

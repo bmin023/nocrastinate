@@ -23,7 +23,7 @@ const Day: React.FC<DayProps> = ({ day }) => {
       localStorage.setItem('user', JSON.stringify(user))
     }, [user])
     return (
-      <div className="m-4 flex justify-between rounded-lg bg-blue-300 p-4 shadow">
+      <div className="m-4 flex justify-between rounded-lg bg-blue-200 p-4 shadow">
         <div className="w-1/2">
           <h1 className="text-xl">{day.subject}</h1>
           <button
@@ -123,7 +123,7 @@ const Dashboard: NextPage = () => {
       <div className="w-full">
         <div className="relative flex h-24 w-full border-b-2 border-black p-2">
           <Link href="/weekview">
-            <a className="mx-2 mt-auto h-11 w-44 rounded-lg bg-orange-400 p-2 text-center text-lg font-semibold shadow-lg hover:bg-orange-300 active:bg-orange-500">
+            <a className="mx-2 mt-auto h-11 w-44 rounded-lg bg-orange-300 p-2 text-center text-lg font-semibold shadow-lg hover:bg-orange-200 active:bg-orange-400">
               Week at a Glance
             </a>
           </Link>
@@ -131,7 +131,7 @@ const Dashboard: NextPage = () => {
             onClick={() => {
               setModalOpen(true)
             }}
-            className="mx-2 mt-auto h-11 w-40 rounded-lg bg-orange-400 p-2 text-lg font-semibold shadow-lg hover:bg-orange-300 active:bg-orange-500"
+            className="mx-2 mt-auto h-11 w-40 rounded-lg bg-orange-300 p-2 text-lg font-semibold shadow-lg hover:bg-orange-200 active:bg-orange-400"
           >
             Add a Task
           </button>
