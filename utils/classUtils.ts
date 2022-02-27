@@ -4,6 +4,7 @@ import moment from "moment";
 const DATE_FORMAT = "ddd MMM DD h:mm:ss a";
 
 export const getWeek = (user: User, numWeeksFromNow: number) => {
+  let plans = [];
   const currentDate = moment();
 
   let weekStart = currentDate.clone().startOf('isoWeek').add(numWeeksFromNow, 'weeks');
@@ -12,10 +13,20 @@ export const getWeek = (user: User, numWeeksFromNow: number) => {
   console.log(weekStart.format(DATE_FORMAT));
   console.log(weekEnd.format(DATE_FORMAT));
 
-  /** 
-  for (let plan of user.fixedPlans) {
-    if (plan.)
+  for (const plan of user.fixedPlans) {
+    if (plan.recurring) {
+      let rePlan : Plan = {
+        startTime: weekStart.clone().add(plan.startTime.getDay(), 'days').toDate(),
+        endTime: weekStart.clone().,
+        recurring: false,
+        activity: plan.activity;
+      }
+      plans.push(rePlan);
+    } else {
+      
+    }
   }
+<<<<<<< Updated upstream
   */
 }
 
@@ -36,3 +47,6 @@ export const splitByWeekday = (schedule: Plan[]): Plan[][] => {
 export const niceDateString = (date: Date): string => {
   return moment(date).format(DATE_FORMAT);
 }
+=======
+}
+>>>>>>> Stashed changes
