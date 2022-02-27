@@ -34,7 +34,7 @@ const Home: NextPage = () => {
                 </div>
                 <figure>
                     <audio id="myAudio" controls
-                        src="tada.mp3"
+                        src="aaronping.ogg"
                         autoPlay>
                     </audio>
                 </figure>
