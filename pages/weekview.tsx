@@ -14,7 +14,9 @@ interface WeekProps {
 }
 
 const Weekday: React.FC<WeekProps> = ({ day, color, schedule }) => {
-  const midnight = schedule[0] ? moment(schedule[0].startTime).startOf('day') : moment().startOf('day');
+  const midnight = schedule[0]
+    ? moment(schedule[0].startTime).startOf('day')
+    : moment().startOf('day')
   const bgcol = {
     red: 'bg-red-300',
     blue: 'bg-blue-300',
@@ -23,28 +25,37 @@ const Weekday: React.FC<WeekProps> = ({ day, color, schedule }) => {
     orange: 'bg-orange-300',
     purple: 'bg-purple-300',
   }
-  const style =
-    `grid shadow-lg rounded-3xl w-full h-full p-2 ${bgcol[color]}`
+  const style = `grid shadow-lg rounded-3xl w-full h-full p-2 ${bgcol[color]}`
   return (
     <div className="h-5/6 w-1/5">
-      <p className="text-center text-xl font-semibold">{day} {schedule[0]?moment(schedule[0].startTime).format('Do') : ''}</p>
-      <div className={style} style={{columnCount: 1, gridTemplateRows: "repeat(168,auto)"}}>
+      <p className="text-center text-xl font-semibold">
+        {day} {schedule[0] ? moment(schedule[0].startTime).format('Do') : ''}
+      </p>
+      <div
+        className={style}
+        style={{ columnCount: 1, gridTemplateRows: 'repeat(168,auto)' }}
+      >
         {schedule &&
           schedule.map((plan, index) => {
             const column = `${(
-              (moment(plan.startTime).diff(midnight, 'minutes') / 5) - 96
+              moment(plan.startTime).diff(midnight, 'minutes') / 5 -
+              96
             ).toFixed(0)} / ${(
-              (moment(plan.endTime).diff(midnight, 'minutes') / 5) - 96
+              moment(plan.endTime).diff(midnight, 'minutes') / 5 -
+              96
             ).toFixed(0)}`
             return (
               <div
                 key={index}
-                className="bg-gray-100 bg-opacity-10 rounded-xl shadow-sm p-1"
+                className="rounded-xl bg-gray-100 bg-opacity-10 p-1 shadow-sm"
                 style={{ gridRow: column }}
               >
                 <p className="text-xs">{plan.activity.subject}</p>
                 <p className="text-sm font-semibold">{plan.activity.name}</p>
-                <p className='text-xs'>{moment(plan.startTime).format('h:mm a')}-{moment(plan.endTime).format('h:mm a')}</p>
+                <p className="text-xs">
+                  {moment(plan.startTime).format('h:mm a')}-
+                  {moment(plan.endTime).format('h:mm a')}
+                </p>
               </div>
             )
           })}
@@ -54,9 +65,17 @@ const Weekday: React.FC<WeekProps> = ({ day, color, schedule }) => {
 }
 
 const Home: NextPage = () => {
-  const [schedule, setSchedule] = useState(splitByWeekday(getWeek(fakeUser,1)))
+  const [schedule, setSchedule] = useState(splitByWeekday(getWeek(fakeUser, 1)))
   useEffect(() => {
-    setSchedule(splitByWeekday(getWeek(fakeUser,1)))
+    if (localStorage.getItem('user')) {
+      setSchedule(
+        splitByWeekday(
+          getWeek(JSON.parse(localStorage.getItem('user') as string), 1)
+        )
+      )
+    } else {
+      setSchedule(splitByWeekday(getWeek(fakeUser, 1)))
+    }
   }, [])
 
   return (
