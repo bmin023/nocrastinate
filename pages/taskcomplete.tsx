@@ -6,7 +6,7 @@ const Home: NextPage = () => {
     return (
         <div className="min-h-screen p-10">
             <Head>
-                <title>CONGRATUALATEIONS!!</title>
+                <title>Task Complete</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div
@@ -20,10 +20,10 @@ const Home: NextPage = () => {
                     Nice Job!
                 </h1>
                 <p className="mt-3 text-2xl">Time to complete: 17:38</p>
-                <h1 className="mt-24 space-y-6 w-32 h-12 justify-center bg-purple-500 text-center border-2 border-purple-700 hover:bg-purple-400 text-xl  cursor-pointer;">
-                    <Link href="/dashboard">
+                <h1 className="mt-24 space-y-6 w-32 h-14 justify-center bg-purple-500 text-center border-2 border-purple-700 hover:bg-purple-400 text-xl  cursor-pointer;">
+                    <Link href="/">
                         <a type="button" className="cursor-pointer font-extrabold">
-                            Submit
+                            Return to tasks!
                         </a>
                     </Link>
                 </h1>
