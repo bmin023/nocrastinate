@@ -18,8 +18,11 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
   const onSubmitHandler = () => {
     if (form.current) {
       const formData = new FormData(form.current)
-      if (!formData.get('date') || (formData.get('name')?.toString() as string).length<1) {
-        return;
+      if (
+        !formData.get('date') ||
+        (formData.get('name')?.toString() as string).length < 1
+      ) {
+        return
       }
       const activity: Activity = {
         name: formData.get('name') as string,
@@ -39,7 +42,7 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
       onClose={onClose}
     >
       <form ref={form}>
-        <div>
+        <div className="flex flex-col space-y-1">
           <div className="flex w-full">
             <label
               htmlFor="name"
@@ -48,9 +51,9 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
               Name:
             </label>
             <input
-              placeholder='Task name'
+              placeholder="Task name"
               name="name"
-              className="ml-2 w-full border-b-2 border-gray-300 p-1"
+              className="ml-2 w-full rounded-md border-b-2 border-gray-300 p-1 shadow"
             />
           </div>
           <div className="flex w-full">
@@ -63,39 +66,39 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
             <input
               name="date"
               type="datetime-local"
-              className="ml-2 w-full border-b-2 border-gray-300 p-1"
+              className="ml-2 w-full rounded-md border-b-2 border-gray-300 p-1 shadow"
             />
           </div>
-        </div>
-        <div className="flex w-full">
-          <label
-            htmlFor="category"
-            className="my-auto mr-2 block text-sm font-medium leading-5 text-gray-700"
+          <div className="flex w-full">
+            <label
+              htmlFor="category"
+              className="my-auto mr-2 block text-sm font-medium leading-5 text-gray-700"
             >
-            Category:
-          </label>
-          <input
-            placeholder='Category'
-            name="category"
-            className="ml-2 w-full border-b-2 border-gray-300 p-1"
-          />
-        </div>
-        <div className="flex w-full">
-          <label
-            htmlFor="priority"
-            className="my-auto mr-2 block text-sm font-medium leading-5 text-gray-700"
-          >
-            Priority:
-          </label>
-          <select
-            name="priority"
-            id="priority"
-            className="my-1 border-b-2 border-gray-300"
-          >
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-          </select>
+              Category:
+            </label>
+            <input
+              placeholder="Category"
+              name="category"
+              className="ml-2 w-full rounded-md border-b-2 border-gray-300 p-1 shadow"
+            />
+          </div>
+          <div className="flex w-full">
+            <label
+              htmlFor="priority"
+              className="my-auto mr-2 block text-sm font-medium leading-5 text-gray-700"
+            >
+              Priority:
+            </label>
+            <select
+              name="priority"
+              id="priority"
+              className="shadow my-1 rounded-md border-b-2 border-gray-300 text-center"
+            >
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
         </div>
       </form>
     </Modal>

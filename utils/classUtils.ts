@@ -18,3 +18,21 @@ export const getWeek = (user: User, numWeeksFromNow: number) => {
   }
   */
 }
+
+export const splitByWeekday = (schedule: Plan[]): Plan[][] => {
+  const currentDate = moment();
+
+  let weekStart = currentDate.clone().startOf('isoWeek');
+  let weekEnd = currentDate.clone().endOf('isoWeek');
+
+  let weekdays: Plan[][] = [[], [], [], [], [], [], []]
+  for (let plan of schedule) {
+    (weekdays.at(moment(plan.startTime).weekday()) as Plan[]).push(plan);
+  }
+
+  return weekdays;
+}
+
+export const niceDateString = (date: Date): string => {
+  return moment(date).format(DATE_FORMAT);
+}
