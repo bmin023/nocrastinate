@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { AddTaskModal } from '../Components/AddTaskModal'
+import { EditTaskModal } from '../Components/EditTaskModal'
 import { Activity, Plan } from '../types/schoolTypes'
 import fakeUser from '../utils/fake'
 
@@ -11,22 +12,53 @@ interface DayProps {
 }
 
 const Day: React.FC<DayProps> = ({ day }) => {
-  return (
-    <div className="m-4 flex justify-between rounded-lg bg-blue-300 p-4 shadow">
-      <div className="w-1/2">
-        <h1 className="text-xl">{day.subject}</h1>
-        <p className="text-2xl font-bold">{day.name}</p>
+    const [modalOpen, setModalOpen] = useState(false);
+    const [user, setUser] = useState(fakeUser);
+    useEffect(() => {
+      if(localStorage.getItem('user') !== null) {
+        setUser(JSON.parse(localStorage.getItem('user') as string))
+      }
+    }, [])
+    useEffect(() => {
+      localStorage.setItem('user', JSON.stringify(user))
+    }, [user])
+    return (
+      <div className="m-4 flex justify-between rounded-lg bg-blue-300 p-4 shadow">
+        <div className="w-1/2">
+          <h1 className="text-xl">{day.subject}</h1>
+          <button
+            onClick={() => {
+              setModalOpen(true)
+            }}
+            className="text-2xl font-bold">
+            {day.name}
+          </button>
+        </div>
+        <div className="w-1/2">
+          <h1 className="text-2xl font-semibold">
+            {moment(day.dueDate).format('MMMM DD, YYYY')}
+          </h1>
+          <h1 className="text-2xl font-regular">
+            {moment(day.dueDate).format('dddd HH:mm')}
+          </h1>
+        </div>
+        {modalOpen && (
+          <EditTaskModal
+            activity= {day}
+            onClose={() => {
+              setModalOpen(false)
+            }}
+            onSubmit={() => {
+              setUser({
+                ...user,
+                activities: [...user.activities],
+              })
+              setModalOpen(false)
+            }}
+          />
+        )}
       </div>
-      <div className="w-1/2">
-        <h1 className="text-2xl font-semibold">
-          {moment(day.dueDate).format('MMMM DD, YYYY')}
-        </h1>
-        <h1 className="text-2xl font-regular">
-          {moment(day.dueDate).format('dddd HH:mm')}
-        </h1>
-      </div>
-    </div>
-  )
+    )
 }
 
 const Dashboard: NextPage = () => {
