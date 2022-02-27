@@ -8,14 +8,14 @@ interface WeekProps {
 
 const Weekday: React.FC<WeekProps> = ({ day, color }) => {
   const bgcol = {
-    red: "bg-red-400",
-    blue: "bg-blue-400",
-    green: "bg-green-400",
-    yellow: "bg-yellow-400",
-    orange: "bg-orange-400",
-    purple: "bg-purple-400",
+    red: "bg-red-300",
+    blue: "bg-blue-300",
+    green: "bg-green-300",
+    yellow: "bg-yellow-300",
+    orange: "bg-orange-300",
+    purple: "bg-purple-300",
   }
-  const style = "rounded-3xl w-full h-full p-2 " + bgcol[color];
+  const style = "shadow-lg rounded-3xl w-full h-full p-2 " + bgcol[color];
   return (
     <div className="h-5/6 w-1/5">
       <p className="text-center text-xl font-semibold">{day}</p>
