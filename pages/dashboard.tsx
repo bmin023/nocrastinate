@@ -99,7 +99,7 @@ const Dashboard: NextPage = () => {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="static flex min-h-screen">
       {/* Create a sidebar */}
       <div className="flex min-h-screen w-52 flex-col bg-gray-300 shadow-xl">
         <button className="mx-2 border-2 border-l-0 border-r-0 border-t-0 border-black py-2 text-left">
@@ -116,7 +116,7 @@ const Dashboard: NextPage = () => {
         </button>
       </div>
         <Link href="/">
-          <a className="w-40 absolute bottom-0 m-3 rounded-lg bg-orange-300 p-2 text-center shadow-lg hover:bg-orange-200 active:bg-orange-400">
+          <a className="fixed w-40 font-semibold bottom-0 m-3 rounded-lg bg-orange-300 p-2 text-center shadow-lg hover:bg-orange-200 active:bg-orange-400">
             Focus Mode
           </a>
         </Link>
