@@ -19,6 +19,9 @@ const Day: React.FC<DayProps> = ({ day }) => {
       </div>
       <div className="w-1/2">
         <h1 className="text-2xl font-semibold">
+          {moment(day.dueDate).format('MMMM DD, YYYY')}
+        </h1>
+        <h1 className="text-2xl font-regular">
           {moment(day.dueDate).format('dddd HH:mm')}
         </h1>
       </div>
