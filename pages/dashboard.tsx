@@ -32,6 +32,7 @@ const Day: React.FC<DayProps> = ({ day }) => {
 const Dashboard: NextPage = () => {
   const [modalOpen, setModalOpen] = useState(false)
   const [user, setUser] = useState(fakeUser);
+  const [sort, setSort] = useState('dueDate' as 'dueDate' | 'subject' | 'priority');
   useEffect(() => {
     if(localStorage.getItem('user') !== null) {
       setUser(JSON.parse(localStorage.getItem('user') as string))
@@ -40,6 +41,31 @@ const Dashboard: NextPage = () => {
   useEffect(() => {
     localStorage.setItem('user', JSON.stringify(user))
   }, [user])
+
+  const handleSort = (activities: Activity[]) => {
+    switch (sort) {
+      case 'dueDate':
+        return activities.sort((a, b) => {
+          return moment(a.dueDate).diff(moment(b.dueDate))
+        })
+      case 'subject':
+        return activities.sort((a, b) => {
+          return (b.subject ? b.subject : '').localeCompare((a.subject ? a.subject : ''))
+        })
+      case 'priority':
+        return activities.sort((a, b) => {
+          const priorities = {
+            'high': 1,
+            'medium': 2,
+            'low': 3,
+          }
+          return priorities[a.priority] - priorities[b.priority]
+        })
+      default:
+        return activities
+    }
+  }
+
   return (
     <div className="flex min-h-screen">
       {/* Create a sidebar */}
@@ -47,25 +73,21 @@ const Dashboard: NextPage = () => {
         <button className="mx-2 border-2 border-l-0 border-r-0 border-t-0 border-black py-2 text-left">
           <p className="text-lg font-bold">Filter by...</p>
         </button>
-        <button className="mx-8 border-b-2 border-transparent bg-opacity-90 py-1 text-left hover:border-slate-900 active:border-dotted">
-          <p className=" text-lg ">Class</p>
+        <button onClick={()=>setSort('subject')} className="mx-8 border-b-2 border-transparent bg-opacity-90 py-1 text-left hover:border-slate-900 active:border-dotted">
+          <p className=" text-lg ">Category</p>
         </button>
-        <button className="mx-8 border-b-2 border-transparent bg-opacity-90 py-1 text-left hover:border-slate-900 active:border-dotted">
+        <button onClick={()=>setSort('priority')} className="mx-8 border-b-2 border-transparent bg-opacity-90 py-1 text-left hover:border-slate-900 active:border-dotted">
           <p className="text-lg">Priority</p>
         </button>
-        <button className="mx-8 border-b-2 border-transparent py-1 text-left hover:border-slate-900 active:border-dotted">
-          <p className="text-lg">Length</p>
-        </button>
-        <button className="mx-8 border-b-2 border-transparent py-1 text-left hover:border-slate-900 active:border-dotted">
+        <button onClick={()=>setSort('dueDate')} className="mx-8 border-b-2 border-transparent py-1 text-left hover:border-slate-900 active:border-dotted">
           <p className="text-lg">Due Date</p>
         </button>
-        <div className="grow"></div>
+      </div>
         <Link href="/">
-          <a className="m-2 rounded-lg bg-orange-400 p-2 text-center shadow-lg hover:bg-orange-300 active:bg-orange-500">
+          <a className="w-40 absolute bottom-0 m-3 rounded-lg bg-orange-300 p-2 text-center shadow-lg hover:bg-orange-200 active:bg-orange-400">
             Focus Mode
           </a>
         </Link>
-      </div>
       <div className="w-full">
         <div className="relative flex h-24 w-full border-b-2 border-black p-2">
           <Link href="/weekview">
@@ -83,7 +105,7 @@ const Dashboard: NextPage = () => {
           </button>
           <div className="py-auto absolute right-5 h-20 w-20 rounded-full bg-red-300 shadow"></div>
         </div>
-        {user.activities.concat(user.fixedPlans.map((plan)=>(plan.activity))).map((day, index) => (
+        {handleSort(user.activities.concat(user.fixedPlans.map((plan)=>(plan.activity)))).map((day, index) => (
           <Day key={index} day={day} />
         ))}
       </div>
