@@ -1,3 +1,5 @@
+import { getWeek } from "../utils/classUtils";
+
 export type User = {
   name: string;
   preferences: Preferences;
@@ -9,7 +11,7 @@ export type Preferences = {
 
 }
 
-enum DayOfWeek {
+export enum DayOfWeek {
   SUNDAY,
   MONDAY,
   TUESDAY,
