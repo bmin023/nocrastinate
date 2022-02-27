@@ -3,6 +3,24 @@ import moment, { Moment } from 'moment'
 
 const DATE_FORMAT = 'ddd MMM DD h:mm:ss a'
 
+export const getDaysOfWeek = (numWeeksFromNow: number) : Date[] => {
+  let days : Date[] = []
+
+  const currentDate = moment()
+  let weekStart = currentDate
+    .clone()
+    .startOf('isoWeek')
+    .add(numWeeksFromNow, 'weeks')
+  
+  for (let i = 0; i < 7; i++) {
+    days.push(weekStart.clone().add(i, 'days').toDate());
+  }
+
+  console.log(days);
+
+  return days;
+}
+
 export const getWeek = (user: User, numWeeksFromNow: number) => {
   let plans : Plan[] = []
   const currentDate = moment()

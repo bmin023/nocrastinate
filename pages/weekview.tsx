@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { Plan } from '../types/schoolTypes'
-import { getWeek, splitByWeekday } from '../utils/classUtils'
+import { getDaysOfWeek, getWeek, splitByWeekday } from '../utils/classUtils'
 import fakeUser from '../utils/fake'
 import moment from 'moment'
 
@@ -11,9 +11,10 @@ interface WeekProps {
   day: string
   color: 'red' | 'blue' | 'green' | 'yellow' | 'orange' | 'purple'
   schedule: Plan[]
+  dayOfWeek: Date
 }
 
-const Weekday: React.FC<WeekProps> = ({ day, color, schedule }) => {
+const Weekday: React.FC<WeekProps> = ({ day, color, schedule, dayOfWeek }) => {
   const midnight = schedule[0]
     ? moment(schedule[0].startTime).startOf('day')
     : moment().startOf('day')
@@ -29,7 +30,7 @@ const Weekday: React.FC<WeekProps> = ({ day, color, schedule }) => {
   return (
     <div className="h-5/6 w-1/5">
       <p className="text-center text-xl font-semibold">
-        {day} {schedule[0] ? moment(schedule[0].startTime).format('Do') : ''}
+        {day} {moment(dayOfWeek).format('Do')}
       </p>
       <div
         className={style}
@@ -67,8 +68,10 @@ const Weekday: React.FC<WeekProps> = ({ day, color, schedule }) => {
 const Home: NextPage = () => {
   const [page, setPage] = useState(1)
   const [schedule, setSchedule] = useState(splitByWeekday(getWeek(fakeUser, page)))
+  const [days, setDays] = useState(getDaysOfWeek(page))
   const resetWeek = () => {
     console.log(page)
+    setDays(getDaysOfWeek(page))
     if (localStorage.getItem('user')) {
       setSchedule(
         splitByWeekday(
@@ -90,7 +93,7 @@ const Home: NextPage = () => {
         <title>Week View</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <button
+        {/*<button
         onClick={() => {
           if (page > 0) {
             setPage(page - 1)
@@ -103,9 +106,7 @@ const Home: NextPage = () => {
       </button>
       <button
         onClick={() => {
-          if (page > 0) {
-            setPage(page + 1)
-          }
+          setPage(page + 1)
           resetWeek()
         }}
         className="absolute -right-5 top-1/2 flex h-12 w-12 content-center justify-center rounded-full bg-white bg-opacity-30 text-4xl font-bold backdrop-blur-md transition-transform hover:-translate-x-5 active:translate-y-1"
@@ -122,15 +123,16 @@ const Home: NextPage = () => {
         </Link>
       </div>
       <div className="flex h-screen w-full space-x-4 px-4">
-        <Weekday day="Monday" color="red" schedule={schedule[1]} />
-        <Weekday day="Tuesday" color="blue" schedule={schedule[2]} />
-        <Weekday day="Wednesday" color="green" schedule={schedule[3]} />
-        <Weekday day="Thursday" color="yellow" schedule={schedule[4]} />
-        <Weekday day="Friday" color="orange" schedule={schedule[5]} />
+        <Weekday day="Monday" color="red" schedule={schedule[1]} dayOfWeek={days[0]} />
+        <Weekday day="Tuesday" color="blue" schedule={schedule[2]} dayOfWeek={days[1]} />
+        <Weekday day="Wednesday" color="green" schedule={schedule[3]} dayOfWeek={days[2]} />
+        <Weekday day="Thursday" color="yellow" schedule={schedule[4]} dayOfWeek={days[3]} />
+        <Weekday day="Friday" color="orange" schedule={schedule[5]} dayOfWeek={days[4]} />
         <Weekday
           day="Weekend"
           color="purple"
           schedule={schedule[6].concat(schedule[0])}
+          dayOfWeek={days[6]}
         />
       </div>
     </div>
