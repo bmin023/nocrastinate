@@ -134,3 +134,23 @@ export const splitByWeekday = (schedule: Plan[]): Plan[][] => {
 export const niceDateString = (date: Date): string => {
   return moment(date).format(DATE_FORMAT)
 }
+
+export const getCurrTask = (user: User): Plan => {
+  const week = getWeek(user, 0);
+  const time = moment();
+  for(let plan of week) {
+    if(time.isBetween(moment(plan.startTime), moment(plan.endTime))){
+      return plan;
+    }
+  }
+  return {
+    activity: {
+      name: 'break',
+      dueDate: new Date(),
+      priority: 'low'
+    },
+    startTime: new Date(),
+    endTime: new Date(),
+    recurring: false
+  };
+}
