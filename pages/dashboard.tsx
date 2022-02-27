@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import { Modal } from '../Components/modal'
+import { useState } from 'react'
+import { AddTaskModal } from '../Components/AddTaskModal'
 
 type Assignment = {
   class: string
@@ -57,6 +58,7 @@ const Day: React.FC<DayProps> = ({ day }) => {
 }
 
 const Dashboard: NextPage = () => {
+  const [modalOpen, setModalOpen] = useState(true)
   return (
     <div className="flex min-h-screen">
       {/* Create a sidebar */}
@@ -84,16 +86,29 @@ const Dashboard: NextPage = () => {
               Week at a Glance
             </a>
           </Link>
-          <button className="mx-2 mt-auto h-11 w-24 rounded-lg bg-orange-400 p-2 shadow-lg hover:bg-orange-300 active:bg-orange-500">
+          <button
+            onClick={() => {
+              setModalOpen(true)
+            }}
+            className="mx-2 mt-auto h-11 w-24 rounded-lg bg-orange-400 p-2 shadow-lg hover:bg-orange-300 active:bg-orange-500"
+          >
             Add a Task
           </button>
           <div className="py-auto absolute right-5 h-20 w-20 rounded-full bg-red-300 shadow"></div>
         </div>
         <Day day={fakeDay} />
       </div>
-      <Modal open={true} title='Add a Task!' onClose={() => { }} onSubmit={() => { }}>
-        <p>Hello</p>
-      </Modal>
+      {modalOpen && (
+        <AddTaskModal
+          onClose={() => {
+            setModalOpen(false)
+          }}
+          onSubmit={(task) => {
+            console.log(task)
+            setModalOpen(false)
+          }}
+        />
+      )}
     </div>
   )
 }
